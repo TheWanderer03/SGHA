@@ -1,10 +1,14 @@
 import './homepage.css'
+import { useNavigate } from 'react-router-dom'
 
-const goToResults = () => {
-  window.location.href = "/results";
-}
 
 export function HomePage() {
+  const navigate = useNavigate()
+
+  const goToResults = () => {
+    navigate("/results");
+  }
+
   return (
     <>
       <div className="header">
@@ -24,7 +28,17 @@ export function HomePage() {
           Uses climate sensors data to regulate temperature, humidity and CO2 levels enhancing sustainable crop growth
         </p>
       </div>
-      <button className="retrieve-button" role="button" onClick={goToResults}>retrieve results</button>
+      <select id="course" name="course" className="crop-drop">
+        <option value="">Select the crop</option>
+        <option value="coffee">coffee</option>
+        <option value="cotton">cotton</option>
+        <option value="maize">maize</option>
+        <option value="rice">rice</option>
+        <option value="sugarcane">sugarcane</option>
+        <option value="tea">tea</option>
+        <option value="wheat">wheat</option>
+      </select>
+      <button className="retrieve-button" role="button" onClick={goToResults}>continue</button>
       <div className="team-info">
         <h2>TEAM NAME: Null Pointers</h2>
         <h3>Ashwathh Saravanan</h3>

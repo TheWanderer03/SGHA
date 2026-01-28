@@ -14,35 +14,31 @@ export function Results() {
   const [user, setUser] = useState(null);
   const [status, setStatus] = useState("Initializing...");
 
-  // 1. AUTH LISTENER
   useEffect(() => {
     const unsubscribeAuth = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
         setUser(currentUser);
         setStatus("Logged in. connecting to greenhouse...");
       } else {
-        navigate("/"); // Kick out if not logged in
+        navigate("/");
       }
     }, (error) => {
-      // 4. Catch permission errors
-      console.error("❌ Firebase Error:", error);
+      console.error(error);
     });
     return () => unsubscribeAuth();
   }, [navigate]);
 
-  // 2. DATA LISTENER (Only runs AFTER 'user' is found)
   useEffect(() => {
-    if (!user) return; // <--- STOP here if not logged in (Prevents Permission Error)
+    if (!user) return;
 
     const sensorRef = ref(database, 'greenhouse');
     
     const unsubscribeDB = onValue(sensorRef, (snapshot) => {
       const data = snapshot.val();
-      console.log("🔥 DATA RECEIVED:", data); // Check Console for this!
+      console.log("🔥 DATA RECEIVED:", data);
 
       if (data) {
         setStatus("Live");
-        // --- THE MAGIC FIX (Handles uppercase/lowercase/typos) ---
         setCo2(data.co2 || data.CO2 || data.Co2 || 0);
         setTemp(data.temp || data.Temp || data.Temperature || data.temperature || 0);
         setHumidity(data.humidity || data.Humidity || 0);
@@ -55,7 +51,7 @@ export function Results() {
     });
 
     return () => unsubscribeDB();
-  }, [user]); // Dependency ensures this waits for login
+  }, [user]); 
 
   const handleLogout = () => {
     signOut(auth).then(() => navigate("/"));

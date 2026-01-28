@@ -3,14 +3,18 @@ import './App.css'
 import { HomePage } from './HomePage.jsx'
 import { Results } from './Results.jsx'
 import { LoginPage } from './LoginPage.jsx'
+import { ProtectedRoute } from './ProtectedRoute.jsx'
 
 function App() {
 
   return (
     <>
       <Routes>
-        <Route path="/homepage" element={<HomePage />} />
-        <Route path="/results" element={<Results />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/homepage" element={<HomePage />} />
+          <Route path="/results" element={<Results />} />
+        </Route>
+
         <Route path="/" element={<LoginPage />} />
       </Routes>
     </>
