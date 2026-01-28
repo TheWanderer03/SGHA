@@ -5,13 +5,20 @@
   "parts": [
     { "type": "board-esp32-devkit-c-v4", "id": "esp", "top": 115.2, "left": 100.84, "attrs": {} },
     { "type": "wokwi-dht22", "id": "dht1", "top": -66.9, "left": -130.2, "attrs": {} },
-    { "type": "wokwi-potentiometer", "id": "pot1", "top": -58.9, "left": -57.8, "attrs": {} },
+    { "type": "wokwi-potentiometer", "id": "pot1", "top": -58.9, "left": -5.8, "attrs": {} },
     {
       "type": "wokwi-lcd1602",
       "id": "lcd1",
       "top": 150.4,
       "left": 236,
       "attrs": { "pins": "i2c" }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "heaterLed",
+      "top": 60,
+      "left": 130,
+      "attrs": { "color": "red", "label": "HEATER" }
     }
   ],
   "connections": [
@@ -19,9 +26,16 @@
     [ "esp:RX", "$serialMonitor:TX", "", [] ],
     [ "dht1:VCC", "esp:3V3", "red", [ "v0" ] ],
     [ "dht1:SDA", "esp:4", "green", [ "v0" ] ],
+    [ "dht1:GND", "esp:GND", "black", [ "v0" ] ],
+    [ "pot1:SIG", "esp:34", "green", [ "v0" ] ],
+    [ "pot1:VCC", "esp:3V3", "red", [ "v0" ] ],
+    [ "pot1:GND", "esp:GND", "black", [ "v0" ] ],
     [ "lcd1:SDA", "esp:21", "green", [ "h0" ] ],
     [ "lcd1:SCL", "esp:22", "green", [ "h0" ] ],
-    [ "pot1:SIG", "esp:34", "green", [ "v0" ] ]
+    [ "lcd1:VCC", "esp:5V", "red", [ "h0" ] ],
+    [ "lcd1:GND", "esp:GND", "black", [ "h0" ] ],
+    [ "heaterLed:A", "esp:12", "orange", [ "v0" ] ],
+    [ "heaterLed:C", "esp:GND", "black", [ "v0" ] ]
   ],
   "dependencies": {}
 }
