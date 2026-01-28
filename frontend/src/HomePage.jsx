@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import './homepage.css'
 
 const goToResults = () => {
   window.location.href = "/results";
