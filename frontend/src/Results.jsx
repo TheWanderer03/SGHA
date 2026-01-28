@@ -47,13 +47,15 @@ export function Results() {
 
   return (
     <div className="results-container">
-      <h1>Dashboard Active</h1>
-      <p>Check the Console (F12) for logs.</p>
-      <div style={{ marginTop: '20px' }}>
-        <p>CO2: {co2}</p>
-        <p>Temp: {temp}</p>
-        <p>Hum: {humidity}</p>
-      </div>
+      <p>
+        the amount of CO2 in the atmosphere is {co2} ppm
+      </p>
+      <p>
+        the temperature of the atmosphere is {temp} degrees celsius
+      </p>
+      <p>
+        the humidity in the atmosphere is {humidity} %
+      </p>
     </div>
   )
 }
