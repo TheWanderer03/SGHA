@@ -1,57 +1,82 @@
 import React, { useEffect, useState } from "react";
-import { database, auth } from "./firebase"; 
-import { ref, onValue } from "firebase/database"; 
+import { database, auth } from "./firebase";
+import { ref, onValue, set } from "firebase/database";
 import { onAuthStateChanged, signOut } from "firebase/auth";
-import { useNavigate } from "react-router-dom"; 
-import "./results.css"
+import { useNavigate, useLocation } from "react-router-dom";
+import "./results.css";
 
 export function Results() {
   const navigate = useNavigate();
-  
-  const [co2, setCo2] = useState(0);
-  const [temp, setTemp] = useState(0);
-  const [humidity, setHumidity] = useState(0);
+  const location = useLocation();
+
+  const selectedCrop = location.state?.selectedCrop;
+
   const [user, setUser] = useState(null);
   const [status, setStatus] = useState("Initializing...");
+  const [metrics, setMetrics] = useState({
+    co2: 0,
+    temp: 0,
+    humidity: 0,
+  });
 
   useEffect(() => {
-    const unsubscribeAuth = onAuthStateChanged(auth, (currentUser) => {
-      if (currentUser) {
-        setUser(currentUser);
-        setStatus("Logged in. connecting to greenhouse...");
-      } else {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (!currentUser) {
         navigate("/");
+        return;
       }
-    }, (error) => {
-      console.error(error);
+      setUser(currentUser);
+      setStatus("Authenticated");
     });
-    return () => unsubscribeAuth();
+
+    return unsubscribe;
   }, [navigate]);
 
   useEffect(() => {
-    if (!user) return;
+    if (!user || !selectedCrop) return;
 
-    const sensorRef = ref(database, 'greenhouse');
-    
-    const unsubscribeDB = onValue(sensorRef, (snapshot) => {
-      const data = snapshot.val();
-      console.log("DATA RECEIVED:", data);
+    const selectedCropRef = ref(database, "selectedCrop");
 
-      if (data) {
-        setStatus("Live");
-        setCo2(data.co2 || data.CO2 || data.Co2 || 0);
-        setTemp(data.temp || data.Temp || data.Temperature || data.temperature || 0);
-        setHumidity(data.humidity || data.Humidity || 0);
-      } else {
-        setStatus("Waiting for ESP32 data...");
+    set(selectedCropRef, selectedCrop)
+      .then(() => {
+        setStatus(`Live data for ${selectedCrop}`);
+      })
+      .catch((err) => {
+        console.error("Failed to set selectedCrop:", err);
+        setStatus("Failed to select crop");
+      });
+
+  }, [user, selectedCrop]);
+
+  useEffect(() => {
+    if (!user || !selectedCrop) return;
+
+    const cropRef = ref(database, `cropThresholds/${selectedCrop}`);
+
+    const unsubscribe = onValue(
+      cropRef,
+      (snapshot) => {
+        const data = snapshot.val();
+
+        if (!data) {
+          setStatus("Waiting for crop data...");
+          return;
+        }
+
+        setMetrics({
+          co2: data?.co2?.value ?? 0,
+          temp: data?.temp?.value ?? 0,
+          humidity: data?.humidity?.value ?? 0,
+        });
+      },
+      (error) => {
+        console.error("Database error:", error.message);
+        setStatus("Permission denied");
       }
-    }, (error) => {
-      console.error("PERMISSION ERROR:", error.message);
-      setStatus("Error: Permission Denied Check Rules");
-    });
+    );
 
-    return () => unsubscribeDB();
-  }, [user]); 
+    return unsubscribe;
+  }, [user, selectedCrop]);
 
   const handleLogout = () => {
     signOut(auth).then(() => navigate("/"));
@@ -59,27 +84,33 @@ export function Results() {
 
   return (
     <div className="results-container">
-      <div style={{display:'flex', justifyContent:'space-between', width:'100%', alignItems:'center', marginBottom:'20px'}}>
-        <h2 style={{margin:0}}>Status: {status}</h2>
-        <button onClick={handleLogout} style={{background:'#ff5252', color:'white', border:'none', padding:'8px 15px', borderRadius:'5px', cursor:'pointer'}}>
+      <div className="top-bar">
+        <h2>Status: {status}</h2>
+        <button className="logout-btn" onClick={handleLogout}>
           Logout
         </button>
       </div>
 
+      <h2 className="crop-title">
+        Selected Crop: <span>{selectedCrop || "None"}</span>
+      </h2>
+
       <div className="card-grid">
-         <div className="card">
-            <h3>CO2 Level</h3>
-            <p style={{fontSize: '24px', fontWeight: 'bold'}}>{co2} ppm</p>
-         </div>
-         <div className="card">
-            <h3>Temperature</h3>
-            <p style={{fontSize: '24px', fontWeight: 'bold'}}>{temp} °C</p>
-         </div>
-         <div className="card">
-            <h3>Humidity</h3>
-            <p style={{fontSize: '24px', fontWeight: 'bold'}}>{humidity} %</p>
-         </div>
+        <div className="card">
+          <h3>CO₂ Level</h3>
+          <p>{metrics.co2} ppm</p>
+        </div>
+
+        <div className="card">
+          <h3>Temperature</h3>
+          <p>{metrics.temp} °C</p>
+        </div>
+
+        <div className="card">
+          <h3>Humidity</h3>
+          <p>{metrics.humidity} %</p>
+        </div>
       </div>
     </div>
-  )
+  );
 }
