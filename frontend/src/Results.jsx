@@ -23,13 +23,13 @@ export function Results() {
   return (
     <div className="results-container">
       <p>
-        the amount of CO2 in the atmosphere is {co2}%
+        the amount of CO2 in the atmosphere is {co2} ppm
       </p>
       <p>
-        the temperature of the atmosphere is {temp}ppm
+        the temperature of the atmosphere is {temp} degrees celsius
       </p>
       <p>
-        the humidity in the atmosphere is {humidity}
+        the humidity in the atmosphere is {humidity} %
       </p>
     </div>
   )
