@@ -35,7 +35,7 @@ export function Results() {
     
     const unsubscribeDB = onValue(sensorRef, (snapshot) => {
       const data = snapshot.val();
-      console.log("🔥 DATA RECEIVED:", data);
+      console.log("DATA RECEIVED:", data);
 
       if (data) {
         setStatus("Live");
@@ -46,8 +46,8 @@ export function Results() {
         setStatus("Waiting for ESP32 data...");
       }
     }, (error) => {
-      console.error("❌ PERMISSION ERROR:", error.message);
-      setStatus("Error: Permission Denied. Check Rules.");
+      console.error("PERMISSION ERROR:", error.message);
+      setStatus("Error: Permission Denied Check Rules");
     });
 
     return () => unsubscribeDB();
