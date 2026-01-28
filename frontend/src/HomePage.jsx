@@ -29,7 +29,7 @@ export function HomePage() {
         <h2>TEAM NAME: Null Pointers</h2>
         <h3>Ashwathh Saravanan</h3>
         <h3>Gowtham Kumar TV</h3>
-        <h3 className="prithvi">Prithvi S</h3>
+        <h3>Prithvi S</h3>
       </div>
     </>
   )
