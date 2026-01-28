@@ -14,7 +14,6 @@ export function Results() {
   const [user, setUser] = useState(null);
   const [status, setStatus] = useState("Initializing...");
 
-<<<<<<< HEAD
   // 1. AUTH LISTENER
   useEffect(() => {
     const unsubscribeAuth = onAuthStateChanged(auth, (currentUser) => {
@@ -23,42 +22,11 @@ export function Results() {
         setStatus("Logged in. connecting to greenhouse...");
       } else {
         navigate("/"); // Kick out if not logged in
-=======
-  // 1. Log immediately when the function loads
-  console.log("🚀 Results Component has started rendering!");
-
-  useEffect(() => {
-    console.log("⚡ useEffect is running...");
-    
-    // 2. Check if database is initialized
-    if (!database) {
-      console.error("❌ Database object is missing! Check firebase.js");
-      return;
-    }
-    console.log("Tb Database object found. Connecting to 'greenhouse'...");
-
-    const sensorRef = ref(database, "greenhouse");
-
-    // 3. Set up the listener
-    const unsubscribe = onValue(sensorRef, (snapshot) => {
-      console.log("📡 Firebase responded!"); // We should see this if connected
-      
-      const data = snapshot.val();
-      console.log("📦 Data received:", data); // This shows the actual object
-
-      if (data) {
-        setCo2(data.co2);
-        setTemp(data.temp);
-        setHumidity(data.humidity);
-      } else {
-        console.warn("⚠️ Data is NULL. Path 'greenhouse' might be empty.");
->>>>>>> 9e402c5b108165c5ccd9b09a54ac8d14a07195a3
       }
     }, (error) => {
       // 4. Catch permission errors
       console.error("❌ Firebase Error:", error);
     });
-<<<<<<< HEAD
     return () => unsubscribeAuth();
   }, [navigate]);
 
@@ -116,23 +84,6 @@ export function Results() {
             <p style={{fontSize: '24px', fontWeight: 'bold'}}>{humidity} %</p>
          </div>
       </div>
-=======
-
-    return () => unsubscribe();
-  }, []);
-
-  return (
-    <div className="results-container">
-      <p>
-        the amount of CO2 in the atmosphere is {co2} ppm
-      </p>
-      <p>
-        the temperature of the atmosphere is {temp} degrees celsius
-      </p>
-      <p>
-        the humidity in the atmosphere is {humidity} %
-      </p>
->>>>>>> 9e402c5b108165c5ccd9b09a54ac8d14a07195a3
     </div>
   )
 }
