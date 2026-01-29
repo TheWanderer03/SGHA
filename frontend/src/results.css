@@ -64,7 +64,7 @@ body {
 .status-indicator {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 5px;
   color: #ccc;
   font-size: 0.9rem;
 }
@@ -179,4 +179,63 @@ body {
   margin: 0;
   color: #e0e0e0;
   line-height: 1.5;
+}
+
+.mute-btn {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  margin-right: 10px;
+  min-width: 100px;
+}
+
+.mute-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.warning-border { border-left: 4px solid #ff1744 !important; background: rgba(255, 23, 68, 0.1) !important; }
+.warning-text { color: #ff1744 !important; }
+
+/* Tablet and Mobile Fix */
+@media (max-width: 768px) {
+  .top-bar {
+    flex-direction: column; /* Stacks Indicator above Buttons */
+    gap: 20px;
+    align-items: center;
+    padding-bottom: 15px;
+  }
+
+  .nav-buttons {
+    width: 100%;
+    justify-content: center; /* Centers buttons on mobile */
+    flex-wrap: wrap; /* Allows buttons to drop to a new line if needed */
+    gap: 8px;
+  }
+
+  .nav-btn {
+    padding: 10px 15px; /* Slightly larger for touch targets */
+    font-size: 0.85rem;
+    flex: 1; /* Makes buttons equal width on small screens */
+    min-width: 80px;
+  }
+
+  .dashboard-glass {
+    padding: 20px; /* Reduces padding to give content more room */
+    margin: 10px;
+  }
+
+  .crop-title {
+    font-size: 1.5rem; /* Shrinks title to fit mobile screen */
+  }
+}
+
+/* Small Mobile Fix (e.g., iPhone SE) */
+@media (max-width: 400px) {
+  .nav-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 2x2 grid for buttons */
+  }
+  
+  .logout-btn {
+    grid-column: span 2; /* Logout button takes full width at bottom */
+  }
 }

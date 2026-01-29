@@ -28,43 +28,50 @@ export function LoginPage() {
   };
 
   return (
-    <div className="login-container">
-      <form className="login-box" onSubmit={handleLogin}>
-        <h2>Login</h2>
+    <div className="auth-container">
+      {/* Background Blobs */}
+      <div className="blob blob-1"></div>
+      <div className="blob blob-2"></div>
 
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
+      <div className="glass-card">
+        <h2 className="auth-title">Welcome Back</h2>
+        <p className="auth-subtitle">Login to monitor your crops</p>
 
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+        <form onSubmit={handleLogin} className="auth-form">
+          <div className="input-group">
+            <input
+              type="email"
+              placeholder="Email Address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
 
-        {error && <p className="error">{error}</p>}
+          <div className="input-group">
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
 
-        <button type="submit">Login</button>
+          {error && <div className="error-msg">{error}</div>}
 
-        {/* Sign Up section */}
-        <p style={{ marginTop: "15px", textAlign: "center" }}>
-          Don’t have an account?
-        </p>
+          <button type="submit" className="primary-btn">
+            Login
+          </button>
+        </form>
 
-        <button
-          type="button"
-          className="signup-button"
-          onClick={goToSignup}
-        >
-          Sign Up
-        </button>
-      </form>
+        <div className="switch-auth">
+          <p>Don't have an account?</p>
+          <button onClick={goToSignup} className="text-btn">
+            Sign Up Now
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

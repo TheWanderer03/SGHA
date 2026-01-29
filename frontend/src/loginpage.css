@@ -1,127 +1,189 @@
+/* Import Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap');
 
-html, body {
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-
-  overflow: hidden; 
-}
-
+/* ---------- GLOBAL RESET ---------- */
 * {
   box-sizing: border-box;
-  font-family: "Inter", "Segoe UI", sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background: #0f1014; /* Deep dark background */
+  color: white;
+}
 
-.login-container {
+/* ---------- CONTAINER ---------- */
+.auth-container {
   height: 100vh;
-  width: 100vw; 
-  
-
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-  
+  width: 100vw;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   position: relative;
+  z-index: 1;
 }
 
-
-.login-container::before {
-  content: "";
+/* ---------- BACKGROUND BLOBS (Glow Effect) ---------- */
+.blob {
   position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.05) 0%, transparent 50%);
-  pointer-events: none;
+  filter: blur(80px);
+  z-index: -1;
+  opacity: 0.6;
+  animation: float 10s infinite ease-in-out;
 }
 
-
-.login-box {
-  width: 100%;
-  max-width: 450px;
-  padding: 2rem;
-  background: transparent;
-  text-align: center;
-
-  margin: 0 auto; 
+.blob-1 {
+  top: 10%;
+  left: 20%;
+  width: 300px;
+  height: 300px;
+  background: #00e676; /* Green */
+  border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
 }
 
-.login-box h2 {
-  margin: 0 0 2rem 0; 
-  font-size: 3rem;    
-  font-weight: 800;
-  color: #ffffff;
-  letter-spacing: -1px;
+.blob-2 {
+  bottom: 20%;
+  right: 20%;
+  width: 350px;
+  height: 350px;
+  background: #1de9b6; /* Teal */
+  border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  animation-delay: -5s;
 }
 
-.login-box input {
-  width: 100%;
-  padding: 1.2rem 1.5rem;
-  margin-bottom: 1.5rem;
-  border-radius: 50px;
-  border: 2px solid rgba(255, 255, 255, 0.1);
+/* ---------- GLASS CARD ---------- */
+.glass-card {
+  width: 90%;
+  max-width: 400px;
+  padding: 3rem 2rem;
   background: rgba(255, 255, 255, 0.05);
-  color: #fff;
-  font-size: 1.1rem;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+/* ---------- TYPOGRAPHY ---------- */
+.auth-title {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 700;
+  color: white;
+  letter-spacing: -0.5px;
+}
+
+.auth-subtitle {
+  margin-top: 0.5rem;
+  margin-bottom: 2rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9rem;
+}
+
+/* ---------- FORM INPUTS ---------- */
+.input-group {
+  margin-bottom: 1.2rem;
+}
+
+input {
+  width: 100%;
+  padding: 1rem 1.2rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.3);
+  color: white;
+  font-size: 1rem;
   transition: all 0.3s ease;
   outline: none;
 }
 
-.login-box input::placeholder {
-  color: rgba(255, 255, 255, 0.5);
+input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
 }
 
-.login-box input:focus {
-  border-color: #4cc9f0;
-  background: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 0 20px rgba(76, 201, 240, 0.3);
+input:focus {
+  border-color: #00e676;
+  background: rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 0 4px rgba(0, 230, 118, 0.1);
 }
 
-.login-box button {
+/* ---------- BUTTONS ---------- */
+.primary-btn {
   width: 100%;
-  padding: 1.2rem;
+  padding: 1rem;
   margin-top: 1rem;
   border: none;
-  border-radius: 50px;
-  background: #4cc9f0;
-  color: #0f2027;
-  font-size: 1.1rem;
+  border-radius: 12px;
+  background: linear-gradient(90deg, #00e676, #1de9b6);
+  color: #0f1014;
+  font-size: 1rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.login-box button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 30px rgba(76, 201, 240, 0.4);
+.primary-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0, 230, 118, 0.3);
 }
 
-.login-box button:active {
-  transform: translateY(-1px);
+.primary-btn:active {
+  transform: translateY(0);
 }
 
-.error {
-  color: #ffdddd;
-  background: rgba(255, 0, 0, 0.15);
+/* ---------- SWITCH AUTH (Login/Signup Toggle) ---------- */
+.switch-auth {
+  margin-top: 2rem;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.text-btn {
+  background: none;
+  border: none;
+  color: #00e676;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  margin-left: 5px;
+  padding: 0;
+  text-decoration: underline;
+  text-decoration-color: transparent; /* Animate underline later if needed */
+  transition: color 0.3s;
+}
+
+.text-btn:hover {
+  color: #1de9b6;
+  text-decoration: underline;
+}
+
+/* ---------- ERROR MSG ---------- */
+.error-msg {
+  background: rgba(255, 23, 68, 0.15);
+  border: 1px solid rgba(255, 23, 68, 0.5);
+  color: #ff1744;
   padding: 10px;
   border-radius: 8px;
-  margin-top: 1rem;
-  font-size: 0.9rem;
-  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 0.85rem;
 }
 
-.signup-button {
-  margin-top: 10px;
-  background-color: transparent;
-  color: #007bff;
-  border: 1px solid #007bff;
+/* ---------- ANIMATIONS ---------- */
+@keyframes float {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(20px, 40px); }
 }
 
-.signup-button:hover {
-  background-color: #007bff;
-  color: white;
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }

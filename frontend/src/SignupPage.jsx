@@ -26,7 +26,6 @@ export function SignupPage() {
       navigate("/homepage");
     } catch (err) {
       console.log(err);
-
       if (err.code === "auth/email-already-in-use") {
         setError("Email already in use");
       } else if (err.code === "auth/weak-password") {
@@ -42,50 +41,60 @@ export function SignupPage() {
   };
 
   return (
-    <div className="login-container">
-      <form className="login-box" onSubmit={handleSignup}>
-        <h2>Sign Up</h2>
+    <div className="auth-container">
+      {/* Background Blobs */}
+      <div className="blob blob-1"></div>
+      <div className="blob blob-2"></div>
 
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
+      <div className="glass-card">
+        <h2 className="auth-title">Create Account</h2>
+        <p className="auth-subtitle">Join the smart farming revolution</p>
 
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+        <form onSubmit={handleSignup} className="auth-form">
+          <div className="input-group">
+            <input
+              type="email"
+              placeholder="Email Address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
 
-        <input
-          type="password"
-          placeholder="Confirm Password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          required
-        />
+          <div className="input-group">
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
 
-        {error && <p className="error">{error}</p>}
+          <div className="input-group">
+            <input
+              type="password"
+              placeholder="Confirm Password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+            />
+          </div>
 
-        <button type="submit">Create Account</button>
+          {error && <div className="error-msg">{error}</div>}
 
-        <p style={{ marginTop: "15px", textAlign: "center" }}>
-          Already have an account?
-        </p>
+          <button type="submit" className="primary-btn">
+            Create Account
+          </button>
+        </form>
 
-        <button
-          type="button"
-          className="signup-button"
-          onClick={goToLogin}
-        >
-          Login
-        </button>
-      </form>
+        <div className="switch-auth">
+          <p>Already have an account?</p>
+          <button onClick={goToLogin} className="text-btn">
+            Login Here
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
