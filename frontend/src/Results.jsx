@@ -15,7 +15,7 @@ export function Results() {
   const [status, setStatus] = useState("Initializing...");
   const [metrics, setMetrics] = useState({
     co2: 0,
-    temp: 0,
+    temperature: 0,
     humidity: 0,
   });
 
@@ -65,7 +65,7 @@ export function Results() {
 
         setMetrics({
           co2: data?.co2?.value ?? 0,
-          temp: data?.temp?.value ?? 0,
+          temperature: data?.temperature?.value ?? 0,
           humidity: data?.humidity?.value ?? 0,
         });
       },
@@ -103,7 +103,7 @@ export function Results() {
 
         <div className="card">
           <h3>Temperature</h3>
-          <p>{metrics.temp} °C</p>
+          <p>{metrics.temperature} °C</p>
         </div>
 
         <div className="card">
