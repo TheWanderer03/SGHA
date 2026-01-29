@@ -6,14 +6,32 @@
 
 body {
   margin: 0;
+  overflow: hidden;
 }
 
+<<<<<<< HEAD
 /* Background */
 .login-container {
   min-height: 100vh;
+=======
+/* ---------- RESET ---------- */
+* {
+  box-sizing: border-box;
+  font-family: "Inter", "Segoe UI", sans-serif;
+}
+
+/* ---------- CONTAINER (The Full Screen Background) ---------- */
+.login-container {
+  height: 100vh;
+  width: 100vw;
+  /* Deep Modern Blue/Black Theme */
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+>>>>>>> 4222329a86772cd8e509d123a4b2004c9576eb9a
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+<<<<<<< HEAD
   background: linear-gradient(135deg, #667eea, #764ba2);
   padding: 20px;
 }
@@ -30,6 +48,38 @@ body {
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
   text-align: center;
   animation: fadeIn 0.8s ease;
+=======
+  position: relative;
+}
+
+/* Optional: Adds a subtle pattern overlay */
+.login-container::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.05) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+/* ---------- LOGIN WRAPPER (Removed the "Box" look) ---------- */
+.login-box {
+  width: 100%;
+  max-width: 450px; /* Keeps inputs from getting unreadably wide */
+  padding: 2rem;
+  /* No background, no shadow, no border = Full Screen feel */
+  background: transparent;
+  box-shadow: none;
+  text-align: center;
+}
+
+/* ---------- TITLE ---------- */
+.login-box h2 {
+  margin-bottom: 3rem;
+  font-size: 3rem; /* Much larger title */
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -1px;
+>>>>>>> 4222329a86772cd8e509d123a4b2004c9576eb9a
 }
 
 /* Title */
@@ -43,6 +93,7 @@ body {
 /* Inputs */
 .login-box input {
   width: 100%;
+<<<<<<< HEAD
   padding: 12px 14px;
   margin-bottom: 16px;
   border-radius: 10px;
@@ -56,6 +107,27 @@ body {
 .login-box input:focus {
   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.4);
   transform: translateY(-1px);
+=======
+  padding: 1.2rem 1.5rem; /* Larger touch targets */
+  margin-bottom: 1.5rem;
+  border-radius: 50px; /* Pill shape */
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+}
+
+.login-box input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.login-box input:focus {
+  outline: none;
+  border-color: #4cc9f0;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 20px rgba(76, 201, 240, 0.3);
+>>>>>>> 4222329a86772cd8e509d123a4b2004c9576eb9a
 }
 
 /* Error text */
@@ -71,6 +143,7 @@ body {
 /* Button */
 .login-box button {
   width: 100%;
+<<<<<<< HEAD
   padding: 12px;
   margin-top: 5px;
   border-radius: 12px;
@@ -86,12 +159,32 @@ body {
 .login-box button:hover {
   transform: translateY(-2px);
   box-shadow: 0 12px 25px rgba(0, 0, 0, 0.25);
+=======
+  padding: 1.2rem;
+  margin-top: 1rem;
+  border: none;
+  border-radius: 50px;
+  background: #4cc9f0;
+  color: #0f2027;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.login-box button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(76, 201, 240, 0.4);
+>>>>>>> 4222329a86772cd8e509d123a4b2004c9576eb9a
 }
 
 .login-box button:active {
-  transform: translateY(0);
+  transform: translateY(-1px);
 }
 
+<<<<<<< HEAD
 /* Animation */
 @keyframes fadeIn {
   from {
@@ -103,3 +196,10 @@ body {
     transform: translateY(0);
   }
 }
+=======
+/* ---------- ERROR ---------- */
+.error {
+  color: #ff6b6b;
+  margin-top: 1rem;
+}
+>>>>>>> 4222329a86772cd8e509d123a4b2004c9576eb9a
