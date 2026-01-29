@@ -19,35 +19,52 @@ export function LoginPage() {
       navigate("/homepage");
     } catch (err) {
       setError("Invalid email or password");
-      console.log(err)
+      console.log(err);
     }
   };
 
+  const goToSignup = () => {
+    navigate("/signup");
+  };
+
   return (
-      <div className="login-container">
-        <form className="login-box" onSubmit={handleLogin}>
-          <h2>Login</h2>
+    <div className="login-container">
+      <form className="login-box" onSubmit={handleLogin}>
+        <h2>Login</h2>
 
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
 
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
 
-          {error && <p className="error">{error}</p>}
+        {error && <p className="error">{error}</p>}
 
-          <button type="submit">Login</button>
-        </form>
-      </div>
+        <button type="submit">Login</button>
+
+        {/* Sign Up section */}
+        <p style={{ marginTop: "15px", textAlign: "center" }}>
+          Don’t have an account?
+        </p>
+
+        <button
+          type="button"
+          className="signup-button"
+          onClick={goToSignup}
+        >
+          Sign Up
+        </button>
+      </form>
+    </div>
   );
 }

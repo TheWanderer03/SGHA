@@ -7,7 +7,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import "./results.css";
 
-// Register Chart.js components
+
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 export function Results() {
@@ -27,7 +27,6 @@ export function Results() {
 
   const [aiAdvice, setAiAdvice] = useState("Waiting for sensor data...");
 
-  // --- Auth Check ---
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
@@ -40,7 +39,7 @@ export function Results() {
     return unsubscribe;
   }, [navigate]);
 
-  // --- Data Listener ---
+
   useEffect(() => {
     if (!user) return;
     const cropRef = ref(database, `cropThresholds/${selectedCrop}`);
@@ -66,7 +65,7 @@ export function Results() {
     return unsubscribe;
   }, [user, selectedCrop]);
 
-  // --- AI Advice Logic ---
+
   const generateAdvice = (limits, current) => {
     let adviceList = [];
     

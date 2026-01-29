@@ -1,10 +1,10 @@
-/* ---------- RESET & SCROLLBAR KILLER ---------- */
+
 html, body {
   height: 100%;
   width: 100%;
   margin: 0;
   padding: 0;
-  /* This completely disables scrolling */
+
   overflow: hidden; 
 }
 
@@ -13,12 +13,12 @@ html, body {
   font-family: "Inter", "Segoe UI", sans-serif;
 }
 
-/* ---------- CONTAINER ---------- */
+
 .login-container {
-  height: 100vh; /* Full Viewport Height */
-  width: 100vw;  /* Full Viewport Width */
+  height: 100vh;
+  width: 100vw; 
   
-  /* Deep Modern Blue/Black Theme */
+
   background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
   
   display: flex;
@@ -28,7 +28,7 @@ html, body {
   position: relative;
 }
 
-/* Background Pattern Overlay */
+
 .login-container::before {
   content: "";
   position: absolute;
@@ -37,27 +37,25 @@ html, body {
   pointer-events: none;
 }
 
-/* ---------- FORM WRAPPER ---------- */
+
 .login-box {
   width: 100%;
   max-width: 450px;
   padding: 2rem;
   background: transparent;
   text-align: center;
-  /* Ensures the box itself doesn't cause overflow */
+
   margin: 0 auto; 
 }
 
-/* ---------- TITLE ---------- */
 .login-box h2 {
-  margin: 0 0 2rem 0; /* Clean margin */
-  font-size: 3rem;    /* Kept the Large Size */
+  margin: 0 0 2rem 0; 
+  font-size: 3rem;    
   font-weight: 800;
   color: #ffffff;
   letter-spacing: -1px;
 }
 
-/* ---------- INPUTS ---------- */
 .login-box input {
   width: 100%;
   padding: 1.2rem 1.5rem;
@@ -68,7 +66,7 @@ html, body {
   color: #fff;
   font-size: 1.1rem;
   transition: all 0.3s ease;
-  outline: none; /* Removes default browser outline */
+  outline: none;
 }
 
 .login-box input::placeholder {
@@ -81,7 +79,6 @@ html, body {
   box-shadow: 0 0 20px rgba(76, 201, 240, 0.3);
 }
 
-/* ---------- BUTTON ---------- */
 .login-box button {
   width: 100%;
   padding: 1.2rem;
@@ -107,7 +104,6 @@ html, body {
   transform: translateY(-1px);
 }
 
-/* ---------- ERROR MESSAGE ---------- */
 .error {
   color: #ffdddd;
   background: rgba(255, 0, 0, 0.15);
@@ -116,4 +112,16 @@ html, body {
   margin-top: 1rem;
   font-size: 0.9rem;
   text-align: center;
+}
+
+.signup-button {
+  margin-top: 10px;
+  background-color: transparent;
+  color: #007bff;
+  border: 1px solid #007bff;
+}
+
+.signup-button:hover {
+  background-color: #007bff;
+  color: white;
 }

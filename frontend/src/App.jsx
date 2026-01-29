@@ -4,6 +4,7 @@ import { HomePage } from './HomePage.jsx'
 import { Results } from './Results.jsx'
 import { LoginPage } from './LoginPage.jsx'
 import { ProtectedRoute } from './ProtectedRoute.jsx'
+import { SignupPage } from "./SignupPage";
 
 function App() {
 
@@ -13,6 +14,7 @@ function App() {
         <Route element={<ProtectedRoute />}>
           <Route path="/homepage" element={<HomePage />} />
           <Route path="/results" element={<Results />} />
+          <Route path="/signup" element={<SignupPage />} />
         </Route>
 
         <Route path="/" element={<LoginPage />} />
