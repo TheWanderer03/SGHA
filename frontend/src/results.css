@@ -1,4 +1,4 @@
-
+/* 
 
 .results-container {
   display: flex;
@@ -30,4 +30,196 @@
 .results-container p:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+} */
+
+
+/* results.css */
+
+.results-container {
+  padding: 20px;
+  background-color: #f4f7f6;
+  min-height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  padding: 15px 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+}
+
+.logout-btn {
+  background-color: #ff4757;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.crop-title {
+  text-align: center;
+  color: #2f3542;
+  margin-bottom: 30px;
+}
+
+.crop-title span {
+  color: #2ed573;
+  font-weight: bold;
+}
+
+/* Dashboard Layout */
+.dashboard-layout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.card-column {
+  flex: 1;
+  min-width: 300px;
+}
+
+.chart-column {
+  flex: 1;
+  min-width: 300px;
+  max-width: 400px;
+}
+
+/* Metric Cards */
+.card-grid {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.card {
+  flex: 1;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  text-align: center;
+  border-top: 4px solid #2ed573;
+}
+
+.card h3 {
+  font-size: 0.9rem;
+  color: #747d8c;
+  margin-bottom: 10px;
+}
+
+.card p {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #2f3542;
+  margin: 0;
+}
+
+.unit {
+  font-size: 0.8rem;
+  color: #a4b0be;
+}
+
+/* AI Advice Box */
+.advice-box {
+  background-color: #e3f2fd;
+  border-left: 5px solid #2196f3;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.advice-box h3 {
+  margin-top: 0;
+  color: #1976d2;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.advice-box p {
+  line-height: 1.5;
+  color: #333;
+}
+
+/* Chart Card */
+.chart-card {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  height: 100%;
+  text-align: center;
+}
+
+.chart-wrapper {
+  position: relative;
+  height: 300px; /* Controls chart size */
+  width: 100%;
+}
+
+/* Add this to your existing results.css */
+
+.charts-row {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap; /* Allows wrapping on mobile phones */
+  margin-bottom: 30px;
+}
+
+.chart-card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  width: 250px; /* Fixed width for uniform circles */
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.chart-wrapper {
+  position: relative;
+  height: 150px;
+  width: 150px;
+  margin: 10px 0;
+}
+
+.chart-card h4 {
+  margin: 0;
+  color: #666;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.chart-value {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  margin-top: 10px;
+}
+
+.advice-section {
+  background-color: #e8f5e9; /* Light green background */
+  border-left: 5px solid #4caf50;
+  padding: 20px;
+  border-radius: 8px;
+  margin: 0 auto;
+  max-width: 800px;
+  text-align: center;
+}
+
+.advice-section h3 {
+  color: #2e7d32;
+  margin-top: 0;
 }
