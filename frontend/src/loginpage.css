@@ -2,6 +2,7 @@
 html, body {
   height: 100%;
   margin: 0;
+  overflow: hidden;
 }
 
 /* ---------- RESET ---------- */
@@ -10,98 +11,100 @@ html, body {
   font-family: "Inter", "Segoe UI", sans-serif;
 }
 
-/* ---------- CONTAINER ---------- */
+/* ---------- CONTAINER (The Full Screen Background) ---------- */
 .login-container {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  height: 100vh;
+  width: 100vw;
+  /* Deep Modern Blue/Black Theme */
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 
-/* ---------- LOGIN BOX ---------- */
+/* Optional: Adds a subtle pattern overlay */
+.login-container::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.05) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+/* ---------- LOGIN WRAPPER (Removed the "Box" look) ---------- */
 .login-box {
-  background: #ffffff;
   width: 100%;
-  max-width: 380px;
-  padding: 2.5rem;
-  border-radius: 16px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-  animation: fadeIn 0.6s ease;
+  max-width: 450px; /* Keeps inputs from getting unreadably wide */
+  padding: 2rem;
+  /* No background, no shadow, no border = Full Screen feel */
+  background: transparent;
+  box-shadow: none;
+  text-align: center;
 }
 
 /* ---------- TITLE ---------- */
 .login-box h2 {
-  margin-bottom: 1.5rem;
-  text-align: center;
-  font-size: 1.8rem;
-  color: #333;
+  margin-bottom: 3rem;
+  font-size: 3rem; /* Much larger title */
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -1px;
 }
 
 /* ---------- INPUTS ---------- */
 .login-box input {
   width: 100%;
-  padding: 0.9rem 1rem;
-  margin-bottom: 1rem;
-  border-radius: 10px;
-  border: 1px solid #ddd;
-  font-size: 1rem;
-  transition: border-color 0.3s, box-shadow 0.3s;
+  padding: 1.2rem 1.5rem; /* Larger touch targets */
+  margin-bottom: 1.5rem;
+  border-radius: 50px; /* Pill shape */
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+}
+
+.login-box input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .login-box input:focus {
   outline: none;
-  border-color: #00e676;
-  box-shadow: 0 0 0 3px rgba(0, 230, 118, 0.25);
+  border-color: #4cc9f0;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 20px rgba(76, 201, 240, 0.3);
 }
 
 /* ---------- BUTTON ---------- */
 .login-box button {
   width: 100%;
-  padding: 0.9rem;
-  margin-top: 0.5rem;
+  padding: 1.2rem;
+  margin-top: 1rem;
   border: none;
-  border-radius: 10px;
-  background: linear-gradient(90deg, #00e676, #1de9b6);
+  border-radius: 50px;
+  background: #4cc9f0;
   color: #0f2027;
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .login-box button:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 10px 20px rgba(0, 230, 118, 0.4);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(76, 201, 240, 0.4);
 }
 
 .login-box button:active {
-  transform: translateY(0);
+  transform: translateY(-1px);
 }
 
 /* ---------- ERROR ---------- */
 .error {
-  margin: 0.5rem 0;
-  color: #e63946;
-  font-size: 0.9rem;
-  text-align: center;
-}
-
-/* ---------- ANIMATION ---------- */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* ---------- MOBILE ---------- */
-@media (max-width: 480px) {
-  .login-box {
-    padding: 2rem 1.5rem;
-  }
+  color: #ff6b6b;
+  margin-top: 1rem;
 }
