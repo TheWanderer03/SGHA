@@ -8,13 +8,14 @@
 #define WIFI_SSID "Wokwi-GUEST"
 #define WIFI_PASSWORD ""
 #define DATABASE_SECRET "m6aWJMcLc9YNRtxgl8wQJsYgL0v5FpYGIvcFf9uC" 
-#define DATABASE_URL "https://sgca-6bf3a-default-rtdb.asia-southeast1.firebasedatabase.app" 
+
+// IMPORTANT: No "https://"
+#define DATABASE_URL "sgca-6bf3a-default-rtdb.asia-southeast1.firebasedatabase.app" 
 
 // --- HARDWARE PINS ---
 #define DHTPIN 4
 #define DHTTYPE DHT22
-#define CO2_PIN 34       // Potentiometer
-#define HEATER_PIN 12    // Red LED
+#define HEATER_PIN 12    
 
 // --- OBJECTS ---
 DHT dht(DHTPIN, DHTTYPE);
@@ -24,10 +25,8 @@ FirebaseAuth auth;
 FirebaseConfig config;
 
 // --- GLOBAL VARIABLES ---
-String cropNames[7] = { "coffee", "cotton", "maize", "rice", "sugarcane", "tea", "wheat" };
-int activeFieldCount = 0; 
+String selectedCrop = ""; 
 
-// --- HELPER FUNCTION: Get Safe Random Value from DB ---
 float getSimulatedValue(String cropName, String metric) {
   float minVal = 0;
   float maxVal = 100;
@@ -37,26 +36,24 @@ float getSimulatedValue(String cropName, String metric) {
     if (Firebase.getFloat(fbdo, basePath + "/min")) minVal = fbdo.floatData();
     if (Firebase.getFloat(fbdo, basePath + "/max")) maxVal = fbdo.floatData();
   }
-
-  // Generate random decimal between Min and Max
+  
   float range = maxVal - minVal;
   if (range < 0) range = 0;
-  float randomOffset = (random(0, 100) / 100.0) * range;
-  
-  return minVal + randomOffset;
+  return minVal + (random(0, 100) / 100.0) * range;
 }
 
 void setup() {
   Serial.begin(115200);
   
-  // Hardware Init
+  // 1. Hardware Init
   dht.begin();
   Wire.begin(21, 22);
   lcd.init();
   lcd.backlight();
   pinMode(HEATER_PIN, OUTPUT);
+  Serial.println("Hardware Initialized");
 
-  // WiFi Init
+  // 2. WiFi Connection
   lcd.setCursor(0,0);
   lcd.print("WiFi Connecting");
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
@@ -67,75 +64,70 @@ void setup() {
   Serial.println("\nWiFi Connected");
   lcd.clear();
 
-  // Firebase Init
+  // 3. Firebase Init
+  Serial.println("Connecting to Firebase...");
+  
   config.database_url = DATABASE_URL;
   config.signer.tokens.legacy_token = DATABASE_SECRET; 
-  fbdo.setBSSLBufferSize(4096, 1024); 
-  fbdo.setResponseSize(2048);
+  
+  // REMOVED BUFFER SETTINGS TO PREVENT CRASH
+  
   Firebase.begin(&config, &auth);
   Firebase.reconnectWiFi(true);
+  
+  Serial.println("Setup Complete.");
 }
 
 void loop() {
-  // --- 1. LOCAL MONITORING (The "Office" Sensor) ---
-  float localTemp = dht.readTemperature();
-  float localHum = dht.readHumidity();
-  
-  // Heater Logic (Local Control)
-  if (localTemp < 22.0) {
-    digitalWrite(HEATER_PIN, HIGH); // Turn LED ON
+  if (!Firebase.ready()) {
+    Serial.println("Connecting...");
+    delay(1000);
+    return;
+  }
+
+  // --- 1. READ SELECTION ---
+  if (Firebase.getString(fbdo, "/selectedCrop")) {
+    selectedCrop = fbdo.stringData();
+    Serial.print("Target Crop: "); 
+    Serial.println(selectedCrop);
   } else {
-    digitalWrite(HEATER_PIN, LOW);  // Turn LED OFF
+    Serial.print("Read Error: ");
+    Serial.println(fbdo.errorReason());
   }
 
-  // Update LCD
-  lcd.setCursor(0, 0);
-  lcd.print("Local: "); 
-  lcd.print((int)localTemp); lcd.print("C "); 
-  lcd.print((int)localHum); lcd.print("%");
-
-  // --- 2. CLOUD SIMULATION (The "Fields") ---
-  if (Firebase.ready()) {
-    // Check how many fields exist
-    if (Firebase.getInt(fbdo, "/settings/activeFields")) {
-      activeFieldCount = fbdo.intData();
-    }
-  }
-
-  lcd.setCursor(0, 1);
-  lcd.print("Syncing "); lcd.print(activeFieldCount); lcd.print(" Flds ");
-
-  // Loop through every simulated field
-  for (int i = 1; i <= activeFieldCount; i++) {
+  // --- 2. UPDATE DATA ---
+  if (selectedCrop != "") {
     
-    // Identify Crop Type
-    int cropID = 2; // Default to Maize
-    String cropTypePath = "/crops/field_" + String(i) + "/type";
-    
-    if (Firebase.ready() && Firebase.getInt(fbdo, cropTypePath)) {
-      cropID = fbdo.intData();
-    }
-    if (cropID < 0 || cropID > 6) cropID = 2;
-    String cropName = cropNames[cropID];
+    // Simulate Data
+    float simTemp = getSimulatedValue(selectedCrop, "temperature");
+    float simHum  = getSimulatedValue(selectedCrop, "humidity");
+    float simCO2  = getSimulatedValue(selectedCrop, "co2");
 
-    // Generate Data (Fetching Min/Max from DB)
-    float simTemp = getSimulatedValue(cropName, "temperature");
-    float simHum  = getSimulatedValue(cropName, "humidity");
-    float simCO2  = getSimulatedValue(cropName, "co2");
+    String basePath = "/cropThresholds/" + selectedCrop;
 
-    // Upload Data
-    String uploadPath = "/crops/field_" + String(i);
-    if (Firebase.ready()) {
-      Firebase.setFloat(fbdo, uploadPath + "/temp", simTemp);
-      Firebase.setFloat(fbdo, uploadPath + "/humidity", simHum);
-      Firebase.setInt(fbdo, uploadPath + "/co2", (int)simCO2);
-      
-      Serial.print("Synced Field "); Serial.print(i);
-      Serial.print(" (" + cropName + ")");
-      Serial.print(" -> T:"); Serial.println(simTemp);
+    // Write Data
+    if (Firebase.setFloat(fbdo, basePath + "/temperature/value", simTemp)) {
+       
+       Firebase.setFloat(fbdo, basePath + "/humidity/value", simHum);
+       Firebase.setInt(fbdo,   basePath + "/co2/value", (int)simCO2);
+
+       Serial.print("UPDATED: "); Serial.println(simTemp);
+
+       // Update LCD
+       lcd.setCursor(0, 0);
+       lcd.print(selectedCrop); lcd.print("      ");
+       lcd.setCursor(0, 1);
+       lcd.print("T:"); lcd.print((int)simTemp); 
+       lcd.print(" H:"); lcd.print((int)simHum);
+       
+    } else {
+       Serial.print("WRITE ERROR: ");
+       Serial.println(fbdo.errorReason());
     }
-    delay(50); // Small delay for stability
+  } else {
+    Serial.println("Waiting for crop selection...");
+    lcd.setCursor(0, 0); lcd.print("Select Crop...");
   }
 
-  delay(2000); // Wait before next update cycle
+  delay(2000); 
 }
